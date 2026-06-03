@@ -121,18 +121,20 @@ export default function YourBetsModal({
 }) {
   const [tab, setTab] = React.useState<"live" | "ended">("live");
   const [ended, setEnded] = React.useState<EndedBet[]>([]);
+  const [endedPage, setEndedPage] = React.useState(1);
+  const ENDED_PER_PAGE = 20;
   const [detail, setDetail] = React.useState<{ blockKey: string; mode: string } | null>(null);
   const [verifyCache, setVerifyCache] = React.useState<Record<number, any>>({});
 
   React.useEffect(() => {
-    if (!address) { setEnded([]); return; }
+    if (!address) return; // never clear on disconnect: keep history visible until remount
     let alive = true;
     const load = async () => {
       try {
-        const r = await fetch(`${API_BASE}/api/bets/${address}`);
+        const r = await fetch(`${API_BASE}/api/bets/${address}?page=1&limit=200`);
         if (!r.ok) return;
         const j = await r.json();
-        if (alive) setEnded(j.bets || []);
+        if (alive && Array.isArray(j.bets)) setEnded(j.bets);
       } catch { /* */ }
     };
     load();
