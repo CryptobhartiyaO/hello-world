@@ -15,7 +15,10 @@
  * provably fair.
  */
 import { JsonRpcProvider } from "ethers";
-import { settleBet, settleClosest, MODES } from "../shared/blockgame.js";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+import { settleBet, settleClosest, MODES, PERFECT_BLOCK_WINDOW_MS } from "../shared/blockgame.js";
 
 const RPC = "https://liteforge.rpc.caldera.xyz/http";
 const provider = new JsonRpcProvider(RPC, 4441, { staticNetwork: true });
@@ -23,6 +26,18 @@ const provider = new JsonRpcProvider(RPC, 4441, { staticNetwork: true });
 const ROUND_MS = 5 * 60 * 1000;   // 5 min lifetime per round
 const LOCK_MS = 30 * 1000;        // betting closes 30s before settle
 const RAKE = 0.02;
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const BETS_FILE = path.join(__dirname, "bets.json");
+
+// persistent ended bets: [{ wallet, roundId, block, mode, pick, stake, win, payout, settledAt }]
+let endedBets = [];
+try {
+  if (fs.existsSync(BETS_FILE)) endedBets = JSON.parse(fs.readFileSync(BETS_FILE, "utf8")) || [];
+} catch { endedBets = []; }
+function persistBets() {
+  try { fs.writeFileSync(BETS_FILE, JSON.stringify(endedBets)); } catch { /* */ }
+}
 
 let _idSeq = 1;
 const rounds = new Map();          // id -> round
