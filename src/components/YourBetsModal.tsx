@@ -419,8 +419,10 @@ function ModeDetail({
         case "txou": actual = s.txou.toUpperCase(); break;
         case "gasou": actual = s.gasou.toUpperCase(); break;
         case "closest": actual = s.mod1000; break;
+        case "perfectblock": actual = `#${Number(v.block.number).toLocaleString()}`; break;
       }
     }
+    if (!v?.block && detail.mode === "perfectblock") actual = `#${block.toLocaleString()}`;
     body = bet ? (
       <>
         <Row k="Block" v={`#${block.toLocaleString()}`} mono />
