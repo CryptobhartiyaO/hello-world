@@ -96,7 +96,7 @@ export default function App() {
   return (
     <>
       <div className="bg"><div className="blob b1" /><div className="blob b2" /><div className="blob b3" /><div className="ring r1" /><div className="ring r2" /><div className="dots d1" /><div className="dots d2" /></div>
-      <div className="app">
+      <div className="app zone-mode">
         <div className="topbar">
           <div className="logo" style={{ cursor: "pointer" }} onClick={() => setView("home")}>
             <div className="mark">B</div>
