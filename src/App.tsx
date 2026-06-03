@@ -15,6 +15,8 @@ export default function App() {
   const [view, setView] = React.useState<"home" | "zone">("home");
   const [rounds, setRounds] = React.useState<RoundView[]>([]);
   const [history, setHistory] = React.useState<RoundView[]>([]);
+  const [historyPage, setHistoryPage] = React.useState(1);
+  const [historyPages, setHistoryPages] = React.useState(1);
   const [head, setHead] = React.useState<number | null>(null);
   const [pfBlock, setPfBlock] = React.useState<number | null>(null);
   const [liveBets, setLiveBets] = React.useState<LiveBet[]>([]);
@@ -27,21 +29,51 @@ export default function App() {
   const addr = isConnected && address ? address.toLowerCase() : null;
   const bal = balance ? Number(balance.formatted) : 0;
 
-  // poll rounds + history when in the zone
+  // poll live rounds while in the zone
   React.useEffect(() => {
     if (view !== "zone") return;
     let alive = true;
     const load = async () => {
       try {
-        const [r, h] = await Promise.all([api.rounds(), api.history(8)]);
+        const r = await api.rounds();
         if (!alive) return;
-        setRounds(r.rounds); setHistory(h.history);
+        setRounds(r.rounds);
       } catch { /* */ }
     };
     load();
     const id = setInterval(load, 2000);
     return () => { alive = false; clearInterval(id); };
   }, [view]);
+
+  // recent blocks: paginated, refresh current page every 30s, mount → page 1
+  React.useEffect(() => {
+    if (view !== "zone") return;
+    setHistoryPage(1);
+  }, [view]);
+
+  React.useEffect(() => {
+    if (view !== "zone") return;
+    let alive = true;
+    const load = async () => {
+      try {
+        // try paginated endpoint first; fall back to legacy ?n=
+        const h: any = await api.historyPage(historyPage, 20).catch(() => null);
+        if (h && Array.isArray(h.history)) {
+          if (!alive) return;
+          setHistory(h.history);
+          setHistoryPages(h.pages || 1);
+          return;
+        }
+        const legacy = await api.history(20);
+        if (!alive) return;
+        setHistory(legacy.history);
+        setHistoryPages(1);
+      } catch { /* */ }
+    };
+    load();
+    const id = setInterval(load, 30000);
+    return () => { alive = false; clearInterval(id); };
+  }, [view, historyPage]);
 
   // prune live bets whose round is no longer active (settled → shows up in ended)
   React.useEffect(() => {
