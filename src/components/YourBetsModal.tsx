@@ -194,7 +194,7 @@ export default function YourBetsModal({
       <motion.div
         initial={{ scale: .9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
         transition={{ type: "spring", stiffness: 260, damping: 22 }}
-        style={panel} onClick={(e) => e.stopPropagation()}
+        style={panel} onClick={(e: React.MouseEvent) => e.stopPropagation()}
       >
         {/* close */}
         <button onClick={onClose} aria-label="Close"
@@ -408,7 +408,7 @@ function ModeDetail({
         initial={{ scale: .85, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: .85, opacity: 0 }}
         transition={{ type: "spring", stiffness: 320, damping: 24 }}
         style={{ ...panel, width: "min(420px,100%)", padding: 24 }}
-        onClick={(e) => e.stopPropagation()}
+        onClick={(e: React.MouseEvent) => e.stopPropagation()}
       >
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
           <div style={{ ...titleBox, fontSize: 22, padding: "8px 16px" }}>{title}</div>
