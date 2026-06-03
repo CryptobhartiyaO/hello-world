@@ -316,17 +316,17 @@ export default function RoundCard({
               )}
               {mode.kind === "perfectblock" && (
                 <div style={{ fontSize: 12, color: "var(--text-2)", margin: "-2px 0 12px" }}>
-                  <span>If you win: <b style={{ color: "#fde047" }}>◆ {(BET * mode.multiplier).toFixed(4)} zkLTC</b> (50×)</span>
+                  <span>If you win: <b style={{ color: "#00e5ff" }}>◆ {(BET * mode.multiplier).toFixed(4)} zkLTC</b> (50×)</span>
                 </div>
               )}
               {mode.kind === "number" && (
                 <div style={{ fontSize: 12, color: "var(--text-2)", margin: "-2px 0 12px" }}>
-                  <span>If you win: <b style={{ color: "#fde047" }}>◆ {(BET * mode.multiplier).toFixed(4)} zkLTC</b> ({mode.multiplier}×)</span>
+                  <span>If you win: <b style={{ color: "#00e5ff" }}>◆ {(BET * mode.multiplier).toFixed(4)} zkLTC</b> ({mode.multiplier}×)</span>
                 </div>
               )}
               {mode.kind === "pvp" && (
                 <div style={{ fontSize: 12, color: "var(--text-2)", margin: "-2px 0 12px" }}>
-                  <span>If you win: <b style={{ color: "#fde047" }}>◆ {Math.max(0.0196, round.players * BET * 0.98).toFixed(4)} zkLTC</b> (winner takes pot)</span>
+                  <span>If you win: <b style={{ color: "#00e5ff" }}>◆ {Math.max(0.0196, round.players * BET * 0.98).toFixed(4)} zkLTC</b> (winner takes pot)</span>
                 </div>
               )}
               <button
