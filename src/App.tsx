@@ -110,13 +110,12 @@ export default function App() {
       <>
         <div className="app zone-mode">
           <div className="topbar">
-          <div className="logo">
-            <img src="https://raw.githubusercontent.com/dopedopex/your-friendly-helper/main/bob_logo.jpg" alt="BetsOnBlock" width={36} height={36} style={{ borderRadius: 8, objectFit: "cover", display: "block" }} />
-            <div><h1>Bets<b>On</b>Block</h1></div>
-          </div>
-          <div className="top-right">
-            <div className="live-head"><span className="pulse" /> Block <b className="mono" style={{ marginLeft: 4 }}>#{head?.toLocaleString() ?? "…"}</b></div>
-            <button className="btn btn-primary btn-sm" onClick={() => setView("zone")}>Enter Zone</button>
+            <div className="logo">
+              <div><h1>Bets<b>On</b>Block</h1><span>Provably fair · LitVM</span></div>
+            </div>
+            <div className="top-right">
+              <div className="live-head"><span className="pulse" /> Block <b className="mono" style={{ marginLeft: 4 }}>#{head?.toLocaleString() ?? "…"}</b></div>
+              <button className="btn btn-primary btn-sm" onClick={() => setView("zone")}>Enter Zone</button>
             </div>
           </div>
           <Home onEnter={() => setView("zone")} />
@@ -133,8 +132,7 @@ export default function App() {
       <div className="app zone-mode">
         <div className="topbar">
           <div className="logo" style={{ cursor: "pointer" }} onClick={() => setView("home")}>
-            <img src="https://raw.githubusercontent.com/dopedopex/your-friendly-helper/main/bob_logo.jpg" alt="BetsOnBlock" width={36} height={36} style={{ borderRadius: 8, objectFit: "cover", display: "block" }} />
-            <div><h1>Bets<b>On</b>Block</h1></div>
+            <div><h1>Bets<b>On</b>Block</h1><span>Provably fair · LitVM</span></div>
           </div>
           <div className="top-right">
             <div className="live-head"><span className="pulse" /> Block <b className="mono" style={{ marginLeft: 4 }}>#{head?.toLocaleString() ?? "…"}</b></div>
@@ -220,10 +218,7 @@ export default function App() {
                     <span className="mono" style={{ color: "#22d3ee", fontWeight: 700, fontSize: 13 }}>
                       #{b.number.toLocaleString()}
                     </span>
-                    <span className="verify-tip-wrap">
-                      <button className="verify-btn" onClick={() => setPfBlock(b.number)}>Verify</button>
-                      <span className="verify-tip">This block's hash was used to determine all game results. Click to verify on the LiteForge block explorer.</span>
-                    </span>
+                    <button className="verify-btn" onClick={() => setPfBlock(b.number)}>Verify</button>
                   </div>
                 );
               })}

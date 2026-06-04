@@ -14,7 +14,6 @@ type EndedBet = {
   stake: number;
   win: boolean;
   payout: number;
-  payoutTx?: string | null;
   settledAt: number;
 };
 
@@ -434,27 +433,6 @@ function ModeDetail({
         <Row k="Stake" v={<><Coin size={13} /> {bet.stake.toFixed(4)}</>} mono />
         <Row k="Result" v={bet.win ? <>WIN +<Coin size={13} />{bet.payout.toFixed(4)}</> : <>LOSS -<Coin size={13} />{bet.stake.toFixed(4)}</>}
           color={bet.win ? "#16a34a" : "#dc2626"} />
-        {bet.win && (
-          bet.payoutTx ? (
-            <Row
-              k="Payout tx"
-              mono
-              small
-              v={
-                <a
-                  href={`https://liteforge.explorer.caldera.xyz/tx/${bet.payoutTx}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  style={{ color: "#3b82f6", textDecoration: "underline", fontWeight: 800 }}
-                >
-                  {`${bet.payoutTx.slice(0, 6)}...${bet.payoutTx.slice(-4)}`}
-                </a>
-              }
-            />
-          ) : (
-            <Row k="Payout tx" v="Pending..." color="#6b7280" mono />
-          )
-        )}
       </>
     ) : <NoBet />;
   }

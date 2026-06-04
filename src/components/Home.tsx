@@ -6,29 +6,21 @@ export default function Home({ onEnter }: { onEnter: () => void }) {
   return (
     <div className="home">
       {/* hero */}
-      <section className="hero hero-2col">
-        <div className="hero-left">
-          <h1>Bet on the<br /><span className="grad">next block.</span></h1>
-          <p className="hero-sub">
-            Every outcome is decided by a future LiteForge block, its hash, its transactions, its gas.
-            Nobody can predict it. Nobody can fake it. You can verify every single result on-chain.
-          </p>
-          <button className="enter-btn" onClick={onEnter}>
-            Enter Betting Zone <ArrowRight size={18} />
-          </button>
-          <div className="hero-stats">
-            <div><b>0.01</b><span>zkLTC per bet</span></div>
-            <div><b>~0.2s</b><span>block time</span></div>
-            <div><b>7</b><span>game modes</span></div>
-            <div><b>100%</b><span>verifiable</span></div>
-          </div>
-        </div>
-        <div className="hero-right">
-          <img
-            src="https://raw.githubusercontent.com/dopedopex/your-friendly-helper/main/boblogo.jpg"
-            alt="BetsOnBlock"
-            className="hero-logo-img"
-          />
+      <section className="hero">
+        <div className="hero-tag"><span className="pulse" /> Provably fair · Powered by LitVM blocks</div>
+        <h1>Bet on the<br /><span className="grad">next block.</span></h1>
+        <p className="hero-sub">
+          Every outcome is decided by a future LiteForge block, its hash, its transactions, its gas.
+          Nobody can predict it. Nobody can fake it. You can verify every single result on-chain.
+        </p>
+        <button className="enter-btn" onClick={onEnter}>
+          Enter Betting Zone <ArrowRight size={18} />
+        </button>
+        <div className="hero-stats">
+          <div><b>0.01</b><span>zkLTC per bet</span></div>
+          <div><b>~0.2s</b><span>block time</span></div>
+          <div><b>7</b><span>game modes</span></div>
+          <div><b>100%</b><span>verifiable</span></div>
         </div>
       </section>
 
