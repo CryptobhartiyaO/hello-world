@@ -369,7 +369,10 @@ export default function PvpWheelVisual({
           return (
             <g
               key={`t-${tile}`}
-              onClick={() => onTileClick(tile)}
+              onClick={() => {
+                if (soundOn && isOpen) audio.tick();
+                onTileClick(tile);
+              }}
               className="pvpTile"
               data-default={t.fill === "#0f172a" && phase === "idle" ? "1" : "0"}
               style={{
