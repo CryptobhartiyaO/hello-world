@@ -424,7 +424,7 @@ export default function PvpWheelVisual({
             padding: 14,
             zIndex: 20,
             overflow: "hidden",
-            opacity: phase === "logo" ? 0 : 1,
+            opacity: 1,
             transform: phase === "winner" ? "scale(1.04)" : "scale(1)",
             transition: "opacity 240ms ease, transform 240ms ease",
           }}
