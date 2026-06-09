@@ -162,16 +162,16 @@ export default function PvpPage({ onBack }: { onBack: () => void }) {
       const prevStatus = lastPollStatusRef.current;
       const prevRound = lastPollRoundRef.current;
 
-      // TRIGGER 1: entering locked/cooldown resolve window
-      const enteringLocked = j.status === "locked" && prevStatus !== "locked";
+      // TRIGGER 1: entering cooldown / new-round window. Do not queue on locked/verifying;
+      // at that point drand often has not returned a winning tile yet.
       const enteringCooldown = j.status === "cooldown" && prevStatus !== "cooldown";
       // TRIGGER 2: round_id changed (previous round just ended)
       const roundChanged = prevRound != null && apiRoundId != null && prevRound !== apiRoundId;
 
-      if (enteringLocked || enteringCooldown || roundChanged) {
+      if (enteringCooldown || roundChanged) {
         const endedRoundId = roundChanged ? prevRound : (apiRoundId ?? prevRound);
-        console.log("[Poll] round ended — fetching history for winner", { enteringLocked, enteringCooldown, roundChanged, endedRoundId, prevRound, newRound: apiRoundId });
-        queueAnimationForRound(endedRoundId, enteringCooldown ? "cooldown" : enteringLocked ? "locked" : "round-change");
+        console.log("[Poll] round ended — fetching history for winner", { enteringCooldown, roundChanged, endedRoundId, prevRound, newRound: apiRoundId });
+        queueAnimationForRound(endedRoundId, enteringCooldown ? "cooldown" : "round-change");
       }
 
       lastPollStatusRef.current = j.status ?? null;
