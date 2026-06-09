@@ -84,10 +84,17 @@ export default function PvpWheelVisual({
   // ---- update center based on status when not animating ----
   React.useEffect(() => {
     if (animating) return;
-    if (isOpen) setCenter({ line1: "ROUND OPEN", timer: true });
-    else if (isLocked) setCenter({ line1: "VERIFYING", timer: true });
-    else if (isCooldown) setCenter({ line1: "RESOLVING", timer: true });
-  }, [isOpen, isLocked, isCooldown, animating]);
+    // Keep "ROUND OPEN" until the visible timer actually hits 0, even if the
+    // backend already flipped to "locked" early (avoid early VERIFYING at 00:03).
+    if (isOpen || ((isLocked || isCooldown) && timeLeftMs > 0)) {
+      setCenter({ line1: "ROUND OPEN", timer: true });
+    } else if (isLocked) {
+      setCenter({ line1: "VERIFYING", timer: true });
+    } else if (isCooldown) {
+      setCenter({ line1: "RESOLVING", timer: true });
+    }
+  }, [isOpen, isLocked, isCooldown, animating, timeLeftMs]);
+
 
   // ---- trigger animation as soon as parent finds resolved winner ----
   React.useEffect(() => {
