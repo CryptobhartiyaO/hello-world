@@ -560,11 +560,11 @@ export default function PvpPage({ onBack }: { onBack: () => void }) {
               <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
                 <History size={15} /> Ended Rounds
               </span>
-              <span style={{
-                fontSize: 10, padding: "3px 8px", borderRadius: 999,
+              <span className="side-head" style={{
+                fontSize: 12, padding: "3px 10px", borderRadius: 999,
                 background: "rgba(124,92,255,.12)", color: "#7c5cff",
-                border: "1px solid rgba(124,92,255,.4)", fontWeight: 800, letterSpacing: ".12em",
-              }}>{history.length} TOTAL</span>
+                border: "1px solid rgba(124,92,255,.4)", marginBottom: 0,
+              }}>{history.length} Total</span>
             </div>
             <div style={{ borderTop: "1px solid rgba(15,23,42,.10)", paddingTop: 10, maxHeight: 560, overflowY: "auto" }}>
               {history.length === 0 ? (
