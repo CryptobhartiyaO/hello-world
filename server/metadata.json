@@ -1,0 +1,6 @@
+{
+  "name": "Zinc Miner Clone",
+  "description": "A privacy-preserving proof-of-work mining wheel and Solana dashboard clone, featuring real-time round simulations, interactive coordinate selection, and custom synthesized audio effects.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
