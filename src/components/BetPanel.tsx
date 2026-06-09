@@ -114,8 +114,9 @@ export default function BetPanel({
     <div
       style={{
         background: "#ffffff",
-        border: "1px solid #0f172a",
-        borderRadius: 16,
+        border: "2px solid #0f172a",
+        borderRadius: 14,
+        boxShadow: "4px 4px 0 0 rgba(15,23,42,.9)",
         padding: 18,
         color: "#0f172a",
         display: "flex",
