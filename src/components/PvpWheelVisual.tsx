@@ -350,13 +350,7 @@ export default function PvpWheelVisual({
         }}
       >
 
-        {flash && (
-          <div style={{
-            position: "absolute", inset: 0, borderRadius: "50%",
-            background: "rgba(255,255,255,0.85)", zIndex: 30, pointerEvents: "none",
-            animation: "pvpFlash 300ms ease-out",
-          }} />
-        )}
+        {/* winner flash removed per design */}
 
         <svg
           viewBox="0 0 580 580"
