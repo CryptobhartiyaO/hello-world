@@ -7,6 +7,9 @@ import PvpWheelVisual from "./PvpWheelVisual";
 import { sounds } from "../lib/pvpSounds";
 
 const API = "https://lit-api.test-hub.xyz";
+const STATUS_URL = `${API}/bets/status`;
+const HISTORY_URL = `${API}/bets/history`;
+const PLACE_URL = `${API}/bets/place`;
 const TILES = 30;
 
 type Status = {
@@ -90,12 +93,13 @@ export default function PvpPage({ onBack }: { onBack: () => void }) {
   // poll status every 2s
   const loadStatus = React.useCallback(async () => {
     try {
-      const r = await fetch(`${API}/bets/status`, { cache: "no-store" });
-      if (!r.ok) return;
+      const r = await fetch(STATUS_URL, { cache: "no-store" });
+      if (!r.ok) { console.error("[BetsOnBlock] status http", r.status); return; }
       const j = await r.json();
+      console.log("[BetsOnBlock] status:", j);
       setStatus(j);
       setStatusFetchedAt(Date.now());
-    } catch { /* */ }
+    } catch (e) { console.error("[BetsOnBlock] status fetch error:", e); }
   }, []);
   React.useEffect(() => {
     loadStatus();
@@ -106,9 +110,10 @@ export default function PvpPage({ onBack }: { onBack: () => void }) {
   // poll history every 10s
   const loadHistory = React.useCallback(async () => {
     try {
-      const r = await fetch(`${API}/bets/history`, { cache: "no-store" });
-      if (!r.ok) return;
+      const r = await fetch(HISTORY_URL, { cache: "no-store" });
+      if (!r.ok) { console.error("[BetsOnBlock] history http", r.status); return; }
       const j = await r.json();
+      console.log("[BetsOnBlock] history:", j);
       const arr: EndedRound[] = Array.isArray(j) ? j : (j.history || j.rounds || []);
       const normalized = arr.map((r: any) => ({
         round_id: r.round_id ?? r.id ?? r.roundId,
@@ -118,7 +123,7 @@ export default function PvpPage({ onBack }: { onBack: () => void }) {
       }));
       setHistory(normalized.slice(0, 10));
       if (normalized[0]) setLastResolvedRound((prev) => prev?.round_id === normalized[0].round_id ? prev : normalized[0]);
-    } catch { /* */ }
+    } catch (e) { console.error("[BetsOnBlock] history fetch error:", e); }
   }, []);
   React.useEffect(() => {
     loadHistory();
@@ -259,7 +264,7 @@ export default function PvpPage({ onBack }: { onBack: () => void }) {
     try {
       const payload = { wallet: addr, tile: Number(selectedTile), amount: parseFloat(amount) };
       console.log("Bet payload:", payload);
-      const r = await fetch(`${API}/bets/place`, {
+      const r = await fetch(PLACE_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
