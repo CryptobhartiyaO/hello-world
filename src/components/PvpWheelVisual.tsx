@@ -12,6 +12,7 @@ type CenterContent = {
   countdown?: boolean;
   timer?: boolean;
 };
+type WheelPhase = "idle" | "resolve" | "scatter" | "logo" | "sweep" | "winner" | "new-round";
 
 export default function PvpWheelVisual({
   size = 560,
@@ -23,11 +24,13 @@ export default function PvpWheelVisual({
   cooldownMs,
   pot,
   winningTile,
+  animationRoundId,
   myTiles,
   tilesWithBets,
   myPayout,
   onTileClick,
   soundOn = true,
+  onAnimationComplete,
 }: {
   size?: number;
   tiles?: number;
@@ -41,11 +44,13 @@ export default function PvpWheelVisual({
   players?: number;
   pot: number;
   winningTile?: number | null;
+  animationRoundId?: number | null;
   myTiles: Set<number>;
   tilesWithBets?: Set<number>;
   myPayout?: number | null;
   onTileClick: (tile: number) => void;
   soundOn?: boolean;
+  onAnimationComplete?: () => void;
 }) {
   // ---- animation state ----
   const [highlighted, setHighlighted] = React.useState<number | null>(null);
@@ -56,6 +61,7 @@ export default function PvpWheelVisual({
   const [flash, setFlash] = React.useState(false);
   const [center, setCenter] = React.useState<CenterContent>({ line1: "ROUND OPEN", timer: true });
   const [animating, setAnimating] = React.useState(false);
+  const [phase, setPhase] = React.useState<WheelPhase>("idle");
   const [hovered, setHovered] = React.useState<number | null>(null);
   const [tooltipVisible, setTooltipVisible] = React.useState(false);
   const tooltipTimerRef = React.useRef<number | null>(null);
